@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Task
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+
 
 def login_or_create_account(request):
     if request.method == 'POST':
@@ -34,3 +36,10 @@ def welcome(request):
 
     tasks = Task.objects.filter(user=request.user)
     return render(request, 'welcome.html', {'tasks': tasks})
+
+@login_required
+def remove_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    if request.method == 'POST':
+        task.delete()
+    return redirect('welcome')

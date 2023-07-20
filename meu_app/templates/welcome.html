@@ -23,3 +23,24 @@
     </form>
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bem-vindo</title>
+</head>
+<body>
+    <h1>Oi</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.title }} - {{ task.description }}
+                <form method="post" action="{% url 'remove_task' task.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Remover">
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
