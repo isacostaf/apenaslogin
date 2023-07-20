@@ -5,5 +5,21 @@
 </head>
 <body>
     <h1>Oi</h1>
+    <h2>Suas tarefas:</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Adicionar nova tarefa:</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" required></textarea><br>
+        <input type="submit" value="Adicionar">
+    </form>
 </body>
 </html>
