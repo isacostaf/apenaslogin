@@ -13,6 +13,7 @@
                     {% csrf_token %}
                     <input type="submit" value="Remover">
                 </form>
+                <a href="{% url 'edit_task' task.id %}">Editar</a>
             </li>
         {% endfor %}
     </ul>

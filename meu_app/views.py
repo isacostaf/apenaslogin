@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Task
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from .forms import TaskForm
 
 
 def login_or_create_account(request):
@@ -43,3 +44,20 @@ def remove_task(request, task_id):
     if request.method == 'POST':
         task.delete()
     return redirect('welcome')
+
+def edit_task(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('welcome')
+    else:
+        form = TaskForm(instance=task)
+
+    return render(request, 'edit_task.html', {'form': form})
+
+def task_list(request):
+    tasks = Task.objects.all()
+    return render(request, 'task_list.html', {'tasks': tasks})
